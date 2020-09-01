@@ -1,16 +1,16 @@
-FROM node:12.18.3-alpine
+FROM node:12.18.3
 
 WORKDIR /app
 
-# We have native dependencies and therefore need theese tools
-#RUN apk add --update --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community --repository http://dl-3.alpinelinux.org/alpine/edge/main vips-dev
-RUN apk add --no-cache python py-pip make g++ gcc
+RUN apt-get update && apt-get install -y python3
+RUN curl -sO https://bootstrap.pypa.io/get-pip.py
+RUN python3 get-pip.py
+
+# Install AWS CLI and it's dependenices
+RUN pip install awscli
 
 # Install Gatsby CLI
 RUN npm install -g gatsby-cli
-
-# Install AWS CLI and it's requirements
-RUN pip install awscli
 
 # Just to make sure its installed alright
 RUN aws --version
